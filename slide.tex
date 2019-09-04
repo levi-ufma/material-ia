@@ -1,0 +1,67 @@
+\documentclass{beamer}
+
+% --------
+% Packages
+% --------
+
+%encoding
+%--------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%--------------------------------------
+%Portuguese-specific commands
+%--------------------------------------
+\usepackage[portuguese]{babel}
+%--------------------------------------
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+\hyphenation{mate-mática recu-perar}
+%--------------------------------------
+%encoding
+%--------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%--------------------------------------
+%Portuguese-specific commands
+%--------------------------------------
+\usepackage[portuguese]{babel}
+%--------------------------------------
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+\hyphenation{mate-mática recu-perar}
+
+%--------------------------------------
+% Math
+%--------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+\graphicspath{{images/}}
+
+%--------------------------------------
+% New Commands
+%--------------------------------------
+\newcommand{\exptd}[1]{\mathbf{E}\left[#1\right]}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+
+\usetheme{metropolis}
+\title{Exemplo}
+\date{\today}
+\author{Marcos Benevides}
+
+\institute{Universidade Federal do Maranhão}
+
+\begin{document}
+  \maketitle
+  \section{Análise de componentes principais}
+
+  \begin{frame}{Análise de componentes principais}
+      \[ \Sigma = \exptd{(\vect{x} - \exptd{\vect{x}}) (x - \exptd{x})^T } \]
+  \end{frame}
+
+\end{document}
