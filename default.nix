@@ -3,36 +3,19 @@
 let
   gitignoreSource = import ./gitignore.nix {};
 
-  texliveEnv = pkgs.texlive.combine {
-    inherit (pkgs.texlive)
-      beamer
-      beamertheme-metropolis
-      scheme-medium
-      enumitem
-      ifetex
-      ifxetex
-      latexmk
-      minted
-      pgf
-      textcase
-      collection-basic
-      collection-fontsextra
-      collection-fontsrecommended
-      collection-langenglish
-      collection-langportuguese
-      collection-latex
-      collection-latexextra
-      collection-mathscience
-      hyphen-portuguese
-      ;
-  };
+  texliveEnv = (import ./texlive.nix {}).env;
+
+  systemDeps = with pkgs; [
+	pygmentex
+    python37Packages.pygments
+  ];
 in
 pkgs.stdenv.mkDerivation rec {
   name = "ai-slides";
 
   src = gitignoreSource ./.;
 
-  buildInputs = [ texliveEnv ];
+  buildInputs = [ texliveEnv ] ++ systemDeps;
 
   buildPhase = ''
     mkdir $out
