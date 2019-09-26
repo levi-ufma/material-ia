@@ -1,8 +1,19 @@
-\documentclass{beamer}
+\documentclass[10pt]{beamer}
 
+\usetheme{metropolis}
 % --------
 % Packages
 % --------
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+\apptocmd{\frame}{}{\justifying}{} % Allow optional arguments after frame.
 
 %encoding
 %--------------------------------------
@@ -77,11 +88,13 @@
 %--------------------------------------
 % Beamer Colors
 %--------------------------------------
-\definecolor{background}{RGB}{204,243,255}
-\setbeamercolor{block title}{bg=blue!30}
-\setbeamercolor{block body}{bg=background}
+\usepackage{xcolor}
 
-\usetheme{metropolis}
+\definecolor{blob}{RGB}{204,243,255}
+\setbeamercolor{block title}{bg=blue!30}
+\setbeamercolor{block body}{bg=blob}
+
+%--------------------------------------
 \title{LEVI \- Inteligência Artificial}
 \subtitle{A modern beamer theme}
 \date{\today}
@@ -97,161 +110,13 @@
   \tableofcontents%[hideallsubsections]
 \end{frame}
 
-\section{Análise de componentes principais}
+\input{s01}
 
-\begin{frame}{Variância}
-  \begin{figure}[t]
-    \includegraphics[width=\textwidth]{pca.png}
-    \caption{Fonte: \cite{scholz2006approaches}}
-    \centering
-  \end{figure}
-\end{frame}
+\input{s02}
 
-\begin{frame}{Problema}
+\input{s03}
 
-  \begin{table}
-    \centering
-    \begin{tabular}{ |c|c|c|c|c|c| }
-    \hline
-    & $x_1$ & $x_2$ & $\cdots$ & $x_{n-1}$ & $x_{n}$ \\ 
-    \hline
-    1 & & & & & \\ 
-    \hline
-    2 & & & & & \\ 
-    \hline
-    $\vdots$ & & & & & \\ 
-    \hline
-    m & & & & & \\ 
-    \hline
-    \end{tabular}
-    \caption{Tabela com $n$ características e $m$ observações}
-  \end{table}
-
-  \begin{itemize}
-    \item Como escolher os componentes (características) mais importantes?
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Variância}
-  \[ \sigma^2 = \frac{1}{n-1} \vt{x} \trans{\vt{x}} \]
-  onde $n = \norm{\vt{x}}$.
-\end{frame}
-
-\begin{frame}{Covariância}
-  \begin{defn}{Variáveis aleatórias em vetores coluna:}
-    \[ \cov{x}{y} = \exptd{(\vt{x} - \exptd{\vt{x}}) \trans{(\vt{y} - \exptd{\vt{y}})}} \]
-
-    \begin{align*}
-      \cov{x}{x} &= \exptd{(\vt{x} - \exptd{\vt{x}}) \trans{(\vt{x} - \exptd{\vt{x}})}}\\
-      &= \exptd{\vt{x} \trans{\vt{x}}}
-    \end{align*}
-  \end{defn}
-\end{frame}
-
-\begin{frame}{Covariância}
-
-\end{frame}
-
-\section{Perceptron}
-
-\begin{frame}{O Modelo de McCullogh e Pitts}
-
-  \begin{figure}[t]
-    \includegraphics[width=0.8\textwidth]{warren_pitts.jpeg}
-    \centering
-  \end{figure}
-
-\end{frame}
-
-\begin{frame}{O Modelo de McCullogh e Pitts}
-
-  \begin{figure}[t]
-    \includegraphics[width=0.8\textwidth]{neuron3.png}
-    \caption{Neurônio biológico}
-    \centering
-  \end{figure}
-
-\end{frame}
-
-\begin{frame}{O Modelo de McCullogh e Pitts}
-
-  \begin{figure}[t]
-    \includegraphics[width=\textwidth]{neuron1.png}
-    \caption{Fonte: \cite{mcculloch1943logical}}
-    \centering
-  \end{figure}
-
-\end{frame}
-
-\begin{frame}{Aprendizado de Hebb}
-
-  Quando um neurônio $x_i$ repetidamente ativa um neurônio $y$ a
-  conexão entre $x_i$ e $y$ fica mais forte:
-
-  \[ w_{i} = w_{i} + \eta x_i y \]
-
-  \pause
-
-  \begin{itemize}
-    \item Conexões fortes apenas se reforçam (os pesos nunca se reduzem).
-    \item Não existe noção de \"competição\" ou de limites pro aprendizado.
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Aprendizado de Hebb (Generalizado)}
-
-  \[ w_{ij} = w_{ij} + \eta y_j \left(x_i - \sum_{k=1}^{j} w_{ik}y_{k} \right)\]
-
-  Um input é distribuido de forma incremental nos múltiplos outputs.
-
-\end{frame}
-
-\begin{frame}{Perceptron - Rosenblatt}
-
-  \begin{figure}
-    \begin{tikzpicture}
-      \node[functions] (center) {};
-      \node[below of=center,font=\scriptsize,text width=4em] (threshold) {Limiar (T)};
-      \draw[thick] (0.5em,0.5em) -- (0,0.5em) -- (0,-0.5em) -- (-0.5em,-0.5em);
-      \node[output, right=1.5em of center] (Y) {Y};
-      \draw (0em,0.75em) -- (0em,-0.75em);
-      \draw (0.75em,0em) -- (-0.75em,0em);
-      \node[right of=center] (right) {};
-        \path[draw,->] (center) -- (right);
-      \node[functions,left=3em of center] (left) {$\sum$};
-        \path[draw,->] (left) -- (center);
-      \node[weights,left=3em of left] (2) {$w_2$} -- (2) node[input,left of=2] (l2) {$x_2$};
-        \path[draw,->] (l2) -- (2);
-        \path[draw,->] (2) -- (left);
-      \node[below of=2] (dots) {$\vdots$} -- (dots) node[left of=dots] (ldots) {$\vdots$};
-      \node[weights,below of=dots] (n) {$w_n$} -- (n) node[input,left of=n] (ln) {$x_n$};
-        \path[draw,->] (ln) -- (n);
-        \path[draw,->] (n) -- (left);
-      \node[weights,above of=2] (1) {$w_1$} -- (1) node[input,left of=1] (l1) {$x_1$};
-        \path[draw,->] (l1) -- (1);
-        \path[draw,->] (1) -- (left);
-      \node[weights,above of=1] (0) {$w_0$} -- (0) node[input,left of=0] (l0) {$x_0$};
-        \path[draw,->] (l0) -- (0);
-        \path[draw,->] (0) -- (left);
-      \node[below of=ln,font=\scriptsize] {Inputs};
-      \node[below of=n,font=\scriptsize] {Pesos};
-    \end{tikzpicture}
-  \centering
-  \end{figure}
-
-\begin{align}
-Y = \left\{
-  \begin{array}{cc}
-    1 & \text{ se } \sum_{i} w_i x_i - T > 0 \\
-    0 & \text{ caso contrário } \\
-  \end{array} \right.
-\end{align}
-
-\end{frame}
-
-%encoding
+% END
 %--------------------------------------
 
 {\setbeamercolor{palette primary}{fg=black, bg=yellow}
