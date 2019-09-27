@@ -77,7 +77,7 @@
       \node[weights,above of=2] (1) {$w_1$} -- (1) node[input,left of=1] (l1) {$x_1$};
         \path[draw,->] (l1) -- (1);
         \path[draw,->] (1) -- (left);
-      \node[weights,above of=1] (0) {$w_0$} -- (0) node[input,left of=0] (l0) {$x_0$};
+      \node[weights,above of=1,fill=red!150!green!10] (0) {$w_0$} -- (0) node[input,left of=0,fill=red!150!green!10] (l0) {$x_0$};
         \path[draw,->] (l0) -- (0);
         \path[draw,->] (0) -- (left);
       \node[below of=ln,font=\scriptsize] {Inputs};
@@ -89,23 +89,32 @@
 \begin{align}
 Y = \left\{
   \begin{array}{cc}
-    1 & \text{ se } \sum_{i} w_i x_i - T > 0 \\
+    1 & \text{ se } \sum_{i=0}^{n} w_i x_i - T > 0 \\
     0 & \text{ caso contrário } \\
   \end{array} \right.
 \end{align}
 
 \end{frame}
 
-\begin{frame}{Perceptron (1958) - F.Rosenblatt}
-  \begin{block}{Algoritmo do aprenzado:}
-    \[ w = w + \eta (d(x) - y(x)) x \]
-    onde:
-    \begin{itemize}
-      \item $d(x)$ é o output esperado.
-      \item $y(x)$ é o output real em resposta ao estímulo $x$.
-    \end{itemize}
-  \end{block}
+\begin{frame}{Perceptron (1958) - Ajustando os pesos}
 
+Seja $m$ o número de iterações.
+\begin{align*}
+  S(m) &= \sum_{i=0}^{n} w_i^m x_i^m \\
+       &= \trans{\vt{w}}_m \vt{x}_m
+\end{align*}
+
+\begin{itemize}
+  \item Se $\vt{x}_m$ é classificado de forma correta:
+    \[ \vt{w}_{m+1} = \vt{w}_m \]
+  \item Caso contrário, seja $\eta(m)$ uma taxa de aprendizado variando em $m$:
+    \[ \vt{w}_{m+1} = \vt{w}_m - \eta(m) \vt{x}_m \]
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Perceptron (1958) - F.Rosenblatt}
   Consegue aprender:
   \begin{itemize}
     \item Funções booleanas.
@@ -180,8 +189,29 @@ Y = \left\{
 \end{frame}
 
 \begin{frame}{Multi-Layer Perceptrons (1969) - Minsky \& Papert}
+
+  \begin{figure}
+    \begin{tikzpicture}
+    \node [input] (A) at (0,0)  {X};
+    \node [input] (B) at (0,-2) {Y};
+    \node [input] (C) at (3,0)  {};
+    \node [input] (D) at (3,-2) {};
+    \node [output, scale=0.5] (E) at (5,-1) {X $\oplus$ Y};
+    \path (A) edge node[above]{?} (C);
+    \path (A) edge node[above]{?} (D);
+    \path (B) edge node[below]{?} (C);
+    \path (B) edge node[above]{?} (D);
+    \path[draw, ->] (C) -- (E);
+    \path[draw, ->] (D) -- (E);
+    \end{tikzpicture}
+  \centering
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}{The Universal Approximation Theorem}
   \begin{figure}[t]
-    \includegraphics[width=0.8\textwidth]{mlp_xor.png}
+    \includegraphics[width=0.7\textwidth]{uat00.png}
     \centering
   \end{figure}
 \end{frame}
