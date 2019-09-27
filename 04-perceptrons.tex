@@ -209,6 +209,49 @@ Seja $m$ o número de iterações.
 
 \end{frame}
 
+\begin{frame}{MLP - Backpropagation}
+
+\begin{figure}[t]
+  \includegraphics[width=0.7\textwidth]{gd.jpeg}
+  \caption{O próximo passo deve ser tomado de forma a diminuir o erro $E$ em nossa rede. Uma boa opção é seguir a direção oposta ao gradiente de $E$.}
+  \centering
+\end{figure}
+
+Seja $n$ o número de iterações e $W$ a matriz de pesos da rede, temos que:
+\begin{align*}
+  W^{(n+1)}_{ji} = W^{(n)}_{ji} + \Delta W^{(n)}_{ji}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{MLP - Backpropagation}
+
+Seja $n$ o número de iterações e $W$ a matriz de pesos da rede, temos que:
+\[ W^{(n+1)}_{ji} = W^{(n)}_{ji} + \Delta W^{(n)}_{ji} \]
+onde:
+\[ \Delta W^{(n)}_{ji} = -\eta \frac{\partial E}{\partial W_{ji}} \]
+e $\eta \in [0, 1]$.
+
+\end{frame}
+
+\begin{frame}{MLP - Backpropagation}
+
+\[ \frac{\partial E}{\partial W_{ji}} = \frac{\partial E}{\partial V_j} \frac{\partial V_j}{\partial W_{ji}} \]
+\[ \delta_j = - \frac{\partial E}{\partial V_j} \qquad y_i = \frac{\partial V_j}{\partial W_{ji}} \]
+\[ \Delta W^n_{ji} = \eta \delta^n_j y^n_i \]
+
+\begin{block}{Regra-$\Delta$:}
+\[
+  \delta_j =
+    \begin{cases}
+      f^\prime(V_j)(y^\ast_j - y_i) \text{ se $j$ é um neurônio de output}\\
+      f^\prime(V_j)(\sum_{k} \delta_k W_{jk}) \text{ se $j$ é um neurônio escondido}
+    \end{cases}
+\]
+\end{block}
+
+\end{frame}
+
 \begin{frame}{The Universal Approximation Theorem}
   \begin{figure}[t]
     \includegraphics[width=0.7\textwidth]{uat00.png}
